@@ -1,4 +1,5 @@
 
+
 \documentclass[10pt,oneside,slovak,a4paper]{article}
 
 \usepackage[slovak]{babel}
@@ -43,7 +44,7 @@ V tomto článku sa bude sústrediť ako cashing je jednou z hlavných techník,
 
 Webové ukladanie do vyrovnávacej pamäte funguje tak, že sa do vyrovnávacej pamäte ukladajú HTTP odpovede na požiadavky podľa určitých pravidiel. Následné požiadavky na obsah uložený vo vyrovnávacej pamäti môžu byť splnené z vyrovnávacej pamäte bližšie k používateľovi namiesto odoslania požiadavky späť na webový serveri. 
 
-\section{Definícia } \label{definicia}
+\section{Vysvetlenie} \label{Vysvetlenie}
 \quad Webová vyrovnávacia pamäť sú údaje webových stránok, ktoré počítač dočasne uložil na rýchly a jednoduchý budúci prístup. Bez ukladania webových stránok do vyrovnávacej pamäte musia prehliadače odosielať nové požiadavky vždy, keď návštevníci prídu na  stránku. Ak bol  obsah uložený do vyrovnávacej pamäte,  server alebo prehliadače návštevníkov môžu namiesto toho odoslať statickú kópiu  obsahu.Tým sa zníži počet žiadostí odoslaných na  server, ktorých spracovanie trvá dlhšie ako odpovede uložené vo vyrovnávacej pamäti. 
 
 \begin{table}[H]
@@ -61,7 +62,7 @@ Webové ukladanie do vyrovnávacej pamäte funguje tak, že sa do vyrovnávacej 
      MICRO CACHE  \\
     \hline
 \end{tabular}
-\caption{Types\cite{OCEAN}}
+\caption{Types\cite{MAN}}
 \label{fig:tab1}
 \end{table}
 
@@ -145,18 +146,27 @@ S určitými politikami je možné použiť ukladanie do vyrovnávacej pamäte n
 Existuje mnoho situácií, v ktorých sa ukladanie do vyrovnávacej pamäte nemôže alebo by nemalo byť implementované v dôsledku spôsobu, akým sa obsah vytvára  alebo charakteru obsahu. Ďalším problémom, s ktorým sa mnohí správcovia stretávajú pri nastavovaní ukladania do vyrovnávacej pamäte, je situácia, keď sú staršie verzie vášho obsahu voľne dostupné, ešte nie sú zastarané, aj keď boli zverejnené nové verzie. Obidva sa často vyskytujú problémy, ktoré môžu mať vážny vplyv na výkon vyrovnávacej pamäte a presnosť obsahu, ktorý poskytujete. Tieto problémy však môžeme zmierniť vývojom politík ukladania do vyrovnávacej pamäte, ktoré tieto problémy predvídajú.
 
 
-
-
-
-
-
-
-
-
-
 \section{Záver}
 \quad
 Ukladanie do vyrovnávacej pamäte je jednou z hlavných techník, ktoré možno použiť na zvýšenie výkonu webovej aplikácie. Keď v našich aplikáciách používame techniky ukladania do vyrovnávacej pamäte, musíme správne navrhnúť vzory prístupu, veľkosť vyrovnávacej pamäte, ktorú musíme použiť, a zásadu nahradenia vyrovnávacej pamäte, aby sme z vyrovnávacej pamäte získali skutočné výhody.
+
+
+
+\section{Reakcia na prednášky}
+
+
+\subsection{Významní informatici (Prednáška 5)}
+\quad Podľa môjho názoru je najvýznamnejší informatik Vint Cerf, a to hlavne kvôli tomu , že vytvoril niečo čomu dnes hovoríme internet. Vytvoril komunikačné protokoly TCP a IP v rámci projektu DARPA. Ide o dva najvýznamnejšie protokoly, ktoré stoja za fungovaním internetu. V dnešnej dobe si už neuvedomujeme  s akou ľahkosťou si vieme vyhľadať potrebné informácie a akou pohodlnosťou vieme komunikovať s inými ľuďmi. Ďalší významný informatik bol  Fernando Corbató, a to hlavne kvôli prvému použitiu hesla pre prístup do systému. Keď sa človek zamyslí, aká nebezpečná by bola práca bez zabezpečenia hesla, ihneď by sa bál, že jeho osobné údaje môže zneužiť niekto iný, a v konečnom dôsledku by ho to odradilo od používania informačných technológií.
+
+\subsection{Načo budem inžinierom (Prednáška 6)}
+\quad Jedným z hlavných dôvodov , prečo sa chcem stať inžinierom je kariérny rast. Odhliadnúc od veľmi dobrého peňažného ohodnotenia sú tu široké možnosti možnosti , ktoré záležia od šikovnosti programátora. Ak je niekto lepši je aj lepšie zaplatený.V sfére programovania je veľa možností , z ktorých si každý môže nájsť svoj programovací jazyk alebo systém , kde môže uplatiť svoje schopnosti. A za predpokladu , že už ovládame niektorý z jazykov , dokážeme sa nauciť aj iný , pokračovať v inom smere v našej kariére.
+
+\subsection{Plagiátorstvo (Prednáška 9)}
+\quad Plagiátorstvo je téma, o ktorej by mal byť každý tvorca článku, eseje, prezentácie alebo autor akéhokoľvek verejného prejavu oboznámený a dodržovať ustanovené pravidlá. Dá sa to nazvať krádežou , ale niekedy sa môže človek dopustiť neúmyselného plagiátorstva. Jedným zo spôsobou ako sa efektívne vyhnúť plagiatorstvu je, že sa budeme odkazovať sa na použité zdroje.
+
+
+
+
 
 \bibliography{literatura}
 \bibliographystyle{plain}
