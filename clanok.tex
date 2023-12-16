@@ -1,21 +1,18 @@
-% Metódy inžinierskej práce
 
-\documentclass[10pt,twoside,slovak,a4paper]{article}
+\documentclass[10pt,oneside,slovak,a4paper]{article}
 
 \usepackage[slovak]{babel}
-%\usepackage[T1]{fontenc}
-\usepackage[IL2]{fontenc} % lepšia sadzba písmena Ľ než v T1
+\usepackage[IL2]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{graphicx}
-\usepackage{url} % príkaz \url na formátovanie URL
-\usepackage{hyperref} % odkazy v texte budú aktívne (pri niektorých triedach dokumentov spôsobuje posun textu)
-
+\usepackage{url}
+\usepackage{hyperref}
 \usepackage{cite}
-%\usepackage{times}
+\usepackage{float}
 
 \pagestyle{headings}
 
-\title{Techniky ukladania údajov do vyrovnávacej pamäte vo webovej aplikácii\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce, ak. rok 2015/16, vedenie: Meno Priezvisko}} % meno a priezvisko vyučujúceho na cvičeniach
+\title{Typy ukladania údajov do vyrovnávacej pamäte vo webovej aplikácií\thanks{Semestrálny projekt v predmete Metódy inžinierskej práce, ak. rok 2023/24, vedenie: doc. Ing. Ján Lang, PhD.}}
 
 \author{Benjamín Tarnovský\\[2pt]
 	{\small Slovenská technická univerzita v Bratislave}\\
@@ -23,15 +20,14 @@
 	{\small \texttt{xtarnovsky@stuba.sk}}
 	}
 
-\date{\small 18. december 2023} % upravte
-
-
+\date{\small 18. december 2023}
 
 \begin{document}
 
 \maketitle
 
 \begin{abstract}
+
 S rozvojom webovej technológie sa počet návštevníkov webovej podpory neustále zvyšuje.
 Ako spracovať  údaje je v súčasnosti jednou z dôležitých otázok a je analyzovaná existujúca technológia ukladania údajov do vyrovnávacej pamäte.
 A vzhľadom na ich nedostatočnosť sa navrhuje procesný rámec. Optimalizácia výkonu je jednou z hlavných tém pri vývoji webových aplikácií.
@@ -39,101 +35,129 @@ Ako všetci vieme, každá sekunda a každý bit, ktorý sa prenáša medzi komp
 Vylepšenie veľmi malého kroku alebo procesu na serveri môže drasticky skrátiť celkový čas odozvy.
 Webové servery potrebujú väčšinu času komunikovať s API, databázami alebo inými externými službami tretích strán.
 V tomto článku sa bude sústrediť ako cashing je jednou z hlavných techník, ktoré možno použiť na zníženie nákladov na webové servery.
+
 \end{abstract}
 
+\section{Úvod} 
+\quad Ukladanie do vyrovnávacej pamäte je termín na ukladanie opakovane použiteľných odpovedí s cieľom urýchliť následné požiadavky. Existuje mnoho rôznych typov ukladania do vyrovnávacej pamäte, z ktorých každý má svoje vlastné charakteristiky. Aplikačné a pamäťové vyrovnávacie pamäte sú obľúbené pre svoju schopnosť urýchliť určité reakcie.. Webové ukladanie do vyrovnávacej pamäte je základná konštrukčná funkcia protokolu HTTP, ktorá má minimalizovať sieťovú prevádzku a zároveň zlepšiť vnímanú odozvu systému ako celku. Vyrovnávacie pamäte sa nachádzajú na každej úrovni cesty obsahu z pôvodného servera do prehliadača.
 
+Webové ukladanie do vyrovnávacej pamäte funguje tak, že sa do vyrovnávacej pamäte ukladajú HTTP odpovede na požiadavky podľa určitých pravidiel. Následné požiadavky na obsah uložený vo vyrovnávacej pamäti môžu byť splnené z vyrovnávacej pamäte bližšie k používateľovi namiesto odoslania požiadavky späť na webový serveri. 
 
-\section{Úvod}
+\section{Definícia } \label{definicia}
+\quad Webová vyrovnávacia pamäť sú údaje webových stránok, ktoré počítač dočasne uložil na rýchly a jednoduchý budúci prístup. Bez ukladania webových stránok do vyrovnávacej pamäte musia prehliadače odosielať nové požiadavky vždy, keď návštevníci prídu na  stránku. Ak bol  obsah uložený do vyrovnávacej pamäte,  server alebo prehliadače návštevníkov môžu namiesto toho odoslať statickú kópiu  obsahu.Tým sa zníži počet žiadostí odoslaných na  server, ktorých spracovanie trvá dlhšie ako odpovede uložené vo vyrovnávacej pamäti. 
 
-Motivujte čitateľa a vysvetlite, o čom píšete. Úvod sa väčšinou nedelí na časti.
-
-Uveďte explicitne štruktúru článku. Tu je nejaký príklad.
-Základný problém, ktorý bol naznačený v úvode, je podrobnejšie vysvetlený v časti~\ref{nejaka}.
-Dôležité súvislosti sú uvedené v častiach~\ref{dolezita} a~\ref{dolezitejsia}.
-Záverečné poznámky prináša časť~\ref{zaver}.
-
-
-
-\section{Nejaká časť} \label{nejaka}
-
-\begin{figure}[]
+\begin{table}[H]
 \centering
-\includegraphics[width=\textwidth]{plain.png}
-\caption{DIAGRAM\cite{hello}}
+\begin{tabular}{|c|c|}
+\hline
+    \textbf{Types} \\
+     \hline
+     SITE CACHE  \\
+     \hline
+     BROWSER CACHE  \\
+     \hline
+     SERVER CACHE  \\
+     \hline
+     MICRO CACHE  \\
+    \hline
+\end{tabular}
+\caption{Types\cite{OCEAN}}
+\label{fig:tab1}
+\end{table}
+
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{graph.PNG}
+\caption{CACHE SYSTEM\cite{IEEE}}
+\label{fig:diag2}
+\end{figure}
+
+\section{Typy}
+
+\subsection{Vyrovnávacia pamäť stránok}
+\quad
+Vyrovnávacia pamäť lokality alebo vyrovnávacia pamäť stránok ukladá údaje webovej lokality pri prvom načítaní webovej stránky. Zakaždým, keď používateľ
+sa vráti na  webovú stránku, uložené prvky sú rýchlo dostupné a zobrazené návštevníkom. Ide o typ ukladania do vyrovnávacej pamäte na strane použivateľa, čo znamená, že všetky uložené prvky kontroluje koncový používateľ.
+
+Ak stránka obsahuje prvky, ktoré sa nikdy nemenia, môže nastaviť dátum vypršania platnosti vyrovnávacej pamäte ďaleko do budúcnosti. Prvky, ktoré sa pravidelne menia, by však mali mať kratšiu dobu platnosti, takže sa pravidelne obnovujú. Z tohto dôvodu je ukladanie stránok do vyrovnávacej pamäte ideálne pre webové stránky s množstvom statického obsahu. Keďže sa  lokalita mení len zriedka, používatelia môžu pokračovať v rýchlom načítavaní  stránok, pričom sa im bude stále zobrazovať najnovšia verzia stránky. .
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{web.png}
+\caption{WEB CACHE\cite{CHECK}}
 \label{fig:diag}
 \end{figure}
-	
-	
 
-Z obr.~\ref{f:rozhod} je všetko jasné. 
+\subsection{Vyrovnávacia pamäť prehliadača}
+\quad Ukladanie do vyrovnávacej pamäte prehliadača je typ ukladania stránky do vyrovnávacej pamäte zabudovanej do webového prehliadača koncového používateľa. Vyrovnávacia pamäť prehliadača môže obsahovať stránky HTML, šablóny so štýlmi CSS, obrázky a ďalší multimediálny obsah. Prvky webových stránok sú uložené prehliadačom v počítači použivateľa a zoskupené s inými súbormi spojenými s vaším obsahom.
+Ukladanie do vyrovnávacej pamäte prehliadača sa prekrýva s ukladaním do vyrovnávacej pamäte stránok, pretože oba sú systémy na strane použivateľa. Primárny rozdiel je v tom, že vyrovnávaciu pamäť ovláda prehliadač a nie koncový používateľ. Všetky prehliadače majú vyrovnávaciu pamäť, ktorá vyprázdni staré súbory bez potreby zásahu používateľa.
 
-\begin{figure*}[tbh]
+
+\begin{figure}[H]
 \centering
-%\includegraphics[scale=1.0]{diagram.pdf}
-Aj text môže byť prezentovaný ako obrázok. Stane sa z neho označný plávajúci objekt. Po vytvorení diagramu zrušte znak \texttt{\%} pred príkazom \verb|\includegraphics| označte tento riadok ako komentár (tiež pomocou znaku \texttt{\%}).
-\caption{Rozhodujúci argument.}
-\label{f:rozhod}
-\end{figure*}
+\includegraphics[width=\textwidth]{browser.png}
+\caption{BROWSER CACHE\cite{OCEAN}}
+\label{fig:diag}
+\end{figure}
+
+\subsection{Vyrovnávacia pamäť servera}
+\quad 
+
+Ukladanie do vyrovnávacej pamäte servera je jednou z najlepších metód na zníženie zaťaženia servera. Zlepšuje výkon a škálovateľnosť webovej stránky. Keď je podaná požiadavka, server skontroluje svoje dočasné úložisko pre potrebný obsah pred úplným spracovaním požiadavky. Ak je požadovaný obsah dostupný vo vyrovnávacej pamäti servera, okamžite sa vráti do prehliadača. To umožňuje  serveru zvládnuť väčšiu návštevnosť a rýchlejšie vrátiť  webové stránky.
+Metódy používané na nastavenie ukladania servera do pamäte cache sa líšia v závislosti od konkrétneho typu pamäte cache, ktorú ideme implementovať.
 
 
-
-\section{Iná časť} \label{ina}
-
-Základným problémom je teda\ldots{} Najprv sa pozrieme na nejaké vysvetlenie (časť~\ref{ina:nejake}), a potom na ešte nejaké (časť~\ref{ina:nejake}).\footnote{Niekedy môžete potrebovať aj poznámku pod čiarou.}
-
-Môže sa zdať, že problém vlastne nejestvuje\cite{Coplien:MPD}, ale bolo dokázané, že to tak nie je~\cite{Czarnecki:Staged, Czarnecki:Progress}. Napriek tomu, aj dnes na webe narazíme na všelijaké pochybné názory\cite{PLP-Framework}. Dôležité veci možno \emph{zdôrazniť kurzívou}.
-
-
-\subsection{Nejaké vysvetlenie} \label{ina:nejake}
-
-Niekedy treba uviesť zoznam:
-
-\begin{itemize}
-\item jedna vec
-\item druhá vec
-	\begin{itemize}
-	\item x
-	\item y
-	\end{itemize}
-\end{itemize}
-
-Ten istý zoznam, len číslovaný:
-
-\begin{enumerate}
-\item jedna vec
-\item druhá vec
-	\begin{enumerate}
-	\item x
-	\item y
-	\end{enumerate}
-\end{enumerate}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{medium.png}
+\caption{SERVER CACHE\cite{MEDIUM}}
+\label{fig:diag}
+\end{figure}
 
 
-\subsection{Ešte nejaké vysvetlenie} \label{ina:este}
-
-\paragraph{Veľmi dôležitá poznámka.}
-Niekedy je potrebné nadpisom označiť odsek. Text pokračuje hneď za nadpisom.
-
-
-
-\section{Dôležitá časť} \label{dolezita}
+\subsection{Mikro vyrovnávacia pamäť}
+\quad Táto metóda ukladá obsah na veľmi krátke časové obdobia. Vo všeobecnosti ukladá statické verzie dynamických prvkov až na 10 sekúnd. Keďže ide o typ vyrovnávacej pamäte stránok, kontrolujú ju koncoví používatelia s obmedzeným vstupom od vlastníkov webových stránok.
 
 
 
 
-\section{Ešte dôležitejšia časť} \label{dolezitejsia}
+\section{Výhody}
+
+\subsection{Znížené náklady na sieť}
+\quad
+Obsah možno\cite{MILD} ukladať do vyrovnávacej pamäte v rôznych bodoch sieťovej cesty medzi spotrebiteľom obsahu a pôvodom obsahu. Keď je obsah uložený do vyrovnávacej pamäte bližšie k spotrebiteľovi, požiadavky nespôsobia veľa ďalšej sieťovej aktivity mimo vyrovnávacej pamäte.
+\subsection{Rychlejšia odozva}
+\quad
+Ukladanie do vyrovnávacej pamäte umožňuje rýchlejšie získavanie obsahu, pretože nie je potrebná spiatočná cesta celej siete. Vyrovnávacie pamäte udržiavané v blízkosti používateľa, ako napríklad vyrovnávacia pamäť prehliadača, môžu spôsobiť, že toto načítanie bude takmer okamžité.
+
+
+\subsection{Znížené zaťaženie backendu}
+\quad Presmerovaním významných častí čítania z backendovej databázy do vrstvy v pamäti môže ukladanie do vyrovnávacej pamäte znížiť zaťaženie  databázy a ochrániť ju pred pomalším výkonom pri zaťažení alebo dokonca pred zlyhaním v časoch špičiek.
+
+\subsection{Predvídateľný výkon}
+\quad Spoločnou výzvou v moderných aplikáciách je vysporiadanie sa s obdobiami špičiek v používaní aplikácií. Príklady zahŕňajú sociálne aplikácie , webové stránky elektronického obchodu počas Čierneho piatku atď. Zvýšené zaťaženie databázy vedie k vyššej latencii získavania údajov, čo robí celkový výkon aplikácie nepredvídateľným. Použitím vysoko výkonnej vyrovnávacej pamäte v pamäti je možné tento problém zmierniť.
+
+\subsection{Dostupnosť obsahu počas prerušení siete}
+\quad
+S určitými politikami je možné použiť ukladanie do vyrovnávacej pamäte na poskytovanie obsahu koncovým používateľom, aj keď môže byť na krátky čas nedostupný z pôvodných serverov.
+\section{Problémy}
+\quad
+Existuje mnoho situácií, v ktorých sa ukladanie do vyrovnávacej pamäte nemôže alebo by nemalo byť implementované v dôsledku spôsobu, akým sa obsah vytvára  alebo charakteru obsahu. Ďalším problémom, s ktorým sa mnohí správcovia stretávajú pri nastavovaní ukladania do vyrovnávacej pamäte, je situácia, keď sú staršie verzie vášho obsahu voľne dostupné, ešte nie sú zastarané, aj keď boli zverejnené nové verzie. Obidva sa často vyskytujú problémy, ktoré môžu mať vážny vplyv na výkon vyrovnávacej pamäte a presnosť obsahu, ktorý poskytujete. Tieto problémy však môžeme zmierniť vývojom politík ukladania do vyrovnávacej pamäte, ktoré tieto problémy predvídajú.
 
 
 
 
-\section{Záver} \label{zaver} % prípadne iný variant názvu
 
 
 
-%\acknowledgement{Ak niekomu chcete poďakovať\ldots}
 
 
-% týmto sa generuje zoznam literatúry z obsahu súboru literatura.bib podľa toho, na čo sa v článku odkazujete
+
+
+\section{Záver}
+\quad
+Ukladanie do vyrovnávacej pamäte je jednou z hlavných techník, ktoré možno použiť na zvýšenie výkonu webovej aplikácie. Keď v našich aplikáciách používame techniky ukladania do vyrovnávacej pamäte, musíme správne navrhnúť vzory prístupu, veľkosť vyrovnávacej pamäte, ktorú musíme použiť, a zásadu nahradenia vyrovnávacej pamäte, aby sme z vyrovnávacej pamäte získali skutočné výhody.
+
 \bibliography{literatura}
-\bibliographystyle{plain} % prípadne alpha, abbrv alebo hociktorý iný
+\bibliographystyle{plain}
 \end{document}
